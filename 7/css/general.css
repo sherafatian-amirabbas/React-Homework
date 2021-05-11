@@ -1,0 +1,36 @@
+body {
+    font-size: 2em;
+}
+
+.link {
+    color: #0000EE;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+a:link {
+    color: #0000EE;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  
+  /* visited link */
+  a:visited {
+    color: #551A8B;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  
+  /* mouse over link */
+  a:hover {
+    color: #0000EE;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  
+  /* selected link */
+  a:active {
+    color: #0000EE;
+    cursor: pointer;
+    text-decoration: underline;
+  }

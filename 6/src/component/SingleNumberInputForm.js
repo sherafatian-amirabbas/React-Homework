@@ -1,0 +1,63 @@
+import React, {useRef, useEffect} from 'react';
+import PropTypes from 'prop-types';
+import Library from '../Library';
+
+const lib = new Library();
+
+const SingleNumberInputForm = (props) => {
+    const input = useRef();
+    const nameInput = useRef();
+    const onSubmit = (event) => {
+        const inputValue = parseInt(input.current.value);
+        const pNameVal = nameInput.current.value;
+        const suppress = props.AlertMessageOnWrongUserInput ? false : true;
+        const isNameValid = pNameVal && pNameVal != '';
+        if (!isNameValid) {
+            if (!suppress) {
+                alert('Please enter your name!');
+            }
+            return;
+        }
+        if (lib.isBetween(inputValue, props.MinNumber, props.MaxNumber, suppress)) {
+            props.onSubmit(inputValue, pNameVal);
+        }
+    };
+    useEffect(() => {
+        input.current.focus();
+    });
+    return (
+        <div role='rounds-form' style={{textAlign: 'center'}}>
+            <div style={{display: 'inline-block', padding: '20px'}}>
+                {props.Label}
+            </div>
+            <div style={{display: 'inline-block', padding: '20px'}}>
+                <input type='number' name="rounds" ref={input}
+                    style={{width: '50px', height: '30px', fontSize: '20px'}}
+                    defaultValue={props.DefaultNumber}
+                    min={props.MinNumber} max={props.MaxNumber} />
+            </div>
+            <br></br>
+            <div style={{display: 'inline-block'}}>
+                <div style={{display: 'inline-block', paddingRight: '10px'}}>Your name:</div>
+                <input name="pName" type='text' ref={nameInput}
+                    style={{width: '200px', height: '30px', fontSize: '20px'}}/>
+            </div>
+            <div style={{padding: '20px'}}>
+                <button style={{width: '100px', height: '40px', fontSize: '25px'}}
+                    onClick={onSubmit}>{props.SubmissionLabel}</button>
+            </div>
+        </div>
+    );
+};
+
+SingleNumberInputForm.propTypes = {
+    Label: PropTypes.string.isRequired,
+    MinNumber: PropTypes.number,
+    MaxNumber: PropTypes.number,
+    DefaultNumber: PropTypes.number.isRequired,
+    SubmissionLabel: PropTypes.string.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    AlertMessageOnWrongUserInput: PropTypes.bool.isRequired,
+};
+
+export default SingleNumberInputForm;
