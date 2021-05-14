@@ -91,6 +91,10 @@ export default class Library {
         return JSON.parse(JSON.stringify(arr));
     }
 
+    clone(obj) {
+        return JSON.parse(JSON.stringify(obj));
+    }
+
     getArrayMax(array, selector) {
         return Math.max(...(array.map((element) => selector(element))));
     }
@@ -99,9 +103,13 @@ export default class Library {
         return [...Array(num).keys()];
     }
 
-    orderArrayBy(arr, numericalColumn) {
+    orderArrayBy(arr, numericalColumn, desc) {
         return arr.sort(function(el1, el2) {
-            return parseFloat(el1[numericalColumn]) - parseFloat(el2[numericalColumn]);
+            if (desc) {
+                return parseFloat(parseFloat(el2[numericalColumn] - el1[numericalColumn]));
+            } else {
+                return parseFloat(el1[numericalColumn]) - parseFloat(el2[numericalColumn]);
+            }
         });
     }
 

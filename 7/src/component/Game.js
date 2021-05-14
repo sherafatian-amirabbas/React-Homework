@@ -46,8 +46,7 @@ const Game = (props) => {
             <div style={{display: 'inline-block', padding: '20px'}}>=</div>
             <div style={{display: 'inline-block', padding: '20px'}}>
                 <ExpressionList Expressions={props.Histories} ShowExpressionDuration={false}
-                    OrderColumnName={props.OrderHistoryColumnName}
-                    ShowRoundTitle={false}></ExpressionList>
+                    isFinishedMode={false} gamesDic={props.gamesDic}></ExpressionList>
                 <input name="result" type='number' ref={input}
                     style={{width: '90px', height: '30px', fontSize: '20px'}}
                     onChange={onChange} key={(new Date()).getTime()}/>
@@ -58,6 +57,7 @@ const Game = (props) => {
 };
 
 Game.propTypes = {
+    gamesDic: PropTypes.object.isRequired,
     Operand1: PropTypes.number.isRequired,
     Operand2: PropTypes.number.isRequired,
     Operator: PropTypes.string.isRequired,
@@ -66,7 +66,6 @@ Game.propTypes = {
     Histories: PropTypes.array.isRequired,
     onSkip: PropTypes.func.isRequired,
     SkipVisibility: PropTypes.bool.isRequired,
-    OrderHistoryColumnName: PropTypes.string.isRequired,
 };
 
 export default Game;

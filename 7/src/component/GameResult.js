@@ -14,17 +14,16 @@ const GameResult = (props) => {
                     aria-label="newGame-button" onClick={onNew}>New Game</button>
             </div>
             <ExpressionList Expressions={props.Histories} ShowExpressionDuration={true}
-                OrderColumnName={props.OrderHistoryColumnName}
-                ShowRoundTitle={true}></ExpressionList>
+                isFinishedMode={true} gamesDic={props.gamesDic}></ExpressionList>
         </div>
     );
 };
 
 GameResult.propTypes = {
+    gamesDic: PropTypes.object.isRequired,
     Duration: PropTypes.number.isRequired,
     Histories: PropTypes.array.isRequired,
     onNew: PropTypes.func.isRequired,
-    OrderHistoryColumnName: PropTypes.string.isRequired,
 };
 
 export default GameResult;

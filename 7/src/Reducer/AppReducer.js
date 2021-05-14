@@ -96,12 +96,13 @@ const initState = ({
     round: 0,
     currentHistories: [],
     rounds: 0,
+    finishedDate: null,
     gamesDic: {},
+    histories: [],
     WSConnect: false,
     wsPlayerId: null,
-    wsPlayerName: null,
+    wsPlayerName: '',
     wsPlayerList: [],
-    histories: [],
     errorMessage: null,
     inFlight: false,
 });
@@ -117,7 +118,12 @@ const setInflight = (state, payload) => {
     });
 };
 
-const close = (state, payload) => initState;
+const close = (state, payload) => {
+    return ({
+        ...initState,
+        gamesDic: {},
+    });
+};
 
 // ----------------------------------------------------- reducer
 
@@ -129,10 +135,11 @@ export const appReducer = (state, action) => {
     }
 
     if (action.payload) {
-        action.payload.initState = initState;
-        action.payload.currentWSPlayerList = state.wsPlayerList;
+        action.payload.initState = lib.clone(initState);
+        action.payload.currentWSConnect = state.WSConnect;
         action.payload.currentWSPlayerId = state.wsPlayerId;
         action.payload.currentWSPlayerName = state.wsPlayerName;
+        action.payload.currentWSPlayerList = state.wsPlayerList;
     }
     let newState = null;
 

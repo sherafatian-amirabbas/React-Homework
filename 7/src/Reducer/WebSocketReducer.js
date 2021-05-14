@@ -42,9 +42,10 @@ const updatePlayers = (state, payload) => {
 const newGame = (state, payload) => {
     return ({
         ...state,
-        wsPlayerList: payload.currentWSPlayerList,
+        WSConnect: payload.currentWSConnect,
         wsPlayerId: payload.currentWSPlayerId,
-        wsPlayerName: payload.currentWSPlayerName
+        wsPlayerName: payload.currentWSPlayerName,
+        wsPlayerList: payload.currentWSPlayerList,
     });
 };
 

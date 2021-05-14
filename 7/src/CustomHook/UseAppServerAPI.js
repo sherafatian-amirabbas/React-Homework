@@ -35,6 +35,10 @@ const useAppServerAPI = () => {
         });
     };
 
+    const newGame = async (rounds, onExecute, onResult) => {
+        return await start(rounds, onExecute, onResult);
+    };
+
     const evaluate = async (gameId, answer, onExecute, onResult) => {
         return await execute(() => {
             onExecute();
@@ -50,14 +54,6 @@ const useAppServerAPI = () => {
         return await execute(() => {
             onExecute();
             return server.skipAnswer(gameId);
-        },
-        (result) => onResult(result));
-    };
-
-    const newGame = async (rounds, onExecute, onResult) => {
-        return await execute(() => {
-            onExecute();
-            return server.startGame(rounds);
         },
         (result) => onResult(result));
     };

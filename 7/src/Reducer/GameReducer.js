@@ -26,6 +26,7 @@ export const loadGameAction = (baseAction, payload) => {
         round: payload.round || 0,
         currentHistories: payload.currentHistories || [],
         rounds: payload.rounds || 0,
+        finishedDate: payload.finishedDate
     };
     return baseAction;
 };
@@ -97,8 +98,6 @@ const isGameFinished = (paylodStatus) => {
     return paylodStatus == 'finished';
 };
 
-// -------------------------
-
 const updateCurrentGame = (state) => {
     if (state.id) {
         state.gamesDic[state.id] = {
@@ -110,23 +109,25 @@ const updateCurrentGame = (state) => {
             round: state.round,
             currentHistories: state.currentHistories,
             rounds: state.rounds,
+            finishedDate: state.finishedDate,
         };
     }
 };
 
+// -------------------------
+
 const startGame = (state, payload) => {
-    const histories = lib.cloneArray(state.histories);
     return ({
         ...state,
         id: payload.id,
         mode: lib.GameMode.InProgress,
         expression: payload.expression,
+        gameDuration: 0,
         skipVisibility: getSkipVisibility(payload.skipsRemaining),
-        round: 1,
+        round: state.round + 1,
+        currentHistories: [],
         rounds: payload.rounds,
-        currentHistories: histories.filter((history) => {
-            return history.id == payload.id;
-        }),
+        finishedDate: null,
     });
 };
 
@@ -141,6 +142,7 @@ const loadGame = (state, payload) => {
         round: payload.round,
         currentHistories: payload.currentHistories,
         rounds: payload.rounds,
+        finishedDate: payload.finishedDate,
     });
 };
 
@@ -157,6 +159,7 @@ const evaluateGame = (state, payload) => {
             mode: lib.GameMode.Finished,
             gameDuration: gameDuration,
             histories: histories,
+            finishedDate: (new Date()).getTime()
         });
     } else {
         result = ({
@@ -181,6 +184,7 @@ const skipGame = (state, payload) => {
         expression: payload.expression,
         gameDuration: isFinished ? gameDuration : state.gameDuration,
         skipVisibility: getSkipVisibility(payload.skipsRemaining),
+        finishedDate: isFinished ? (new Date()).getTime() : state.finishedDate,
     });
 };
 
@@ -190,10 +194,11 @@ const newGame = (state, payload) => {
         id: payload.id,
         mode: lib.GameMode.InProgress,
         expression: payload.expression,
-        histories: lib.cloneArray(state.histories),
-        round: state.round + 1,
         skipVisibility: getSkipVisibility(payload.skipsRemaining),
+        round: state.round + 1,
         rounds: state.rounds,
+        gamesDic: state.gamesDic,
+        histories: lib.cloneArray(state.histories),
     });
 };
 
