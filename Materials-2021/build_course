@@ -1,0 +1,18 @@
+#!/bin/bash
+
+set -euo pipefail
+
+git checkout gh-pages
+git merge master --no-edit
+
+cd slides
+./build-all
+cd ../
+
+git add .
+git diff-index --quiet HEAD -- || git commit -m "Update pages"
+git push
+
+rm ./slides/*.html
+
+git checkout master
